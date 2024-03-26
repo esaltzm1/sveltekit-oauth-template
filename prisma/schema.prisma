@@ -14,13 +14,54 @@ datasource db {
 }
 
 model User {
-  id       String    @id
-  sessions Session[]
+  id       String @id @unique
+  username String @unique
+  email    String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  role Role @default(USER)
+
+  authSession        Session[]
+  oauthAccounts      OauthAccount[]
+  hashedPassword     String?
+  passwordResetToken PasswordResetToken[]
 }
 
 model Session {
-  id        String   @id
+  id        String   @id @unique
   userId    String
   expiresAt DateTime
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model OauthAccount {
+  providerId     OAuthProvider
+  providerUserId String
+  userId         String
+  user           User          @relation(references: [id], fields: [userId], onDelete: Cascade)
+
+  @@id([providerId, providerUserId])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  expiresAt DateTime
+  userId    String
+  user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+
+  @@index([expiresAt])
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum OAuthProvider {
+  google
+  email
 }
