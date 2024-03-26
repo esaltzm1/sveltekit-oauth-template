@@ -33,10 +33,10 @@ Ensure you install at least version 15.
 
 Start your postgres server. If you are using the Postgres GUI, open the GUI and click the start button.
 
-Create a new database named spolia:
+Create a new database named DB_NAME:
 
 ```
-CREATE DATABASE spolia;
+CREATE DATABASE DB_NAME;
 ```
 
 If you're using the Postgres GUI, double-click on an existing database to open a new terminal window, then paste and run the command.
@@ -44,7 +44,7 @@ If you're using the Postgres GUI, double-click on an existing database to open a
 After creating the database, update the `DATABASE_URL` variable in the `.env` file with your new database's URL. It typically follows this format:
 
 ```
-postgresql://[USERNAME]:node_password@localhost:[PORT]/spolia
+postgresql://[USERNAME]:node_password@localhost:[PORT]/DB_NAME
 ```
 
 You can find your username with the `whoami` command in your terminal. The port of the server should be displayed in the postgres GUI. if you're having trouble figuring out the `DATABASE_URL` don't worry. check in w a teammate and we'll figure it out.
