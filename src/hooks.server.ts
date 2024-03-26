@@ -1,5 +1,5 @@
 import { lucia } from '$lib/server/auth';
-import type { Handle } from '@sveltejs/kit';
+import { redirect, type Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	const sessionId = event.cookies.get(lucia.sessionCookieName);
@@ -26,7 +26,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 			...sessionCookie.attributes
 		});
 	}
+
+	const pathname = event.url.pathname;
+
 	event.locals.user = user;
 	event.locals.session = session;
+	if (user && !user.isEmailVerified && !pathname.includes('/verify-email')) {
+		redirect(302, '/verify-email');
+	}
 	return resolve(event);
 };

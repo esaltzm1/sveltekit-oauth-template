@@ -66,6 +66,17 @@ export const displayStrings = {
 					expiredToken: 'This link has expired.'
 				}
 			}
+		},
+		'verify-email': {
+			labels: {
+				verificationCode: 'Code'
+			},
+			placeholder: {
+				verificationCode: '******'
+			},
+			errors: {
+				invalidVerificationCode: 'incorrect verification code...'
+			}
 		}
 	},
 	buttons: {
@@ -73,7 +84,8 @@ export const displayStrings = {
 		logout: 'Log out',
 		register: 'Register',
 		forgotPassword: 'Forgot password',
-		reset: 'Reset'
+		reset: 'Reset',
+		confirm: 'Confirm'
 	},
 	errors: {
 		catchAll: 'Something went wrong...',

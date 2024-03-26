@@ -1,7 +1,14 @@
 import { env } from '$env/dynamic/private';
+import VerifyEmail from '$lib/emailTemplates/VerifyEmail.svelte';
 import { ProjectError } from '$lib/errors';
 import { displayStrings } from '$lib/i18n';
+import { db } from '$lib/server/database';
+import { EMAIL_VERIFICATION_CODE_LENGTH } from '$lib/validationSchemas';
+import { TimeSpan } from 'lucia';
+import { createDate } from 'oslo';
+import { alphabet, generateRandomString } from 'oslo/crypto';
 import { Resend } from 'resend';
+import { render } from 'svelte-email';
 
 export type CreateEmail = {
 	to: string[];
@@ -30,4 +37,46 @@ export async function sendEmail(email: CreateEmail) {
 	}
 
 	return data;
+}
+
+export async function generateAndSendEmailVerificationCode(userId: string, email: string) {
+	const verificationCode = await generateEmailVerificationCode(userId, email);
+	console.log({ verificationCode });
+	// TODO: Uncomment when we are for real!
+	// await sendVerificationCode(form.data.email, verificationCode);
+}
+
+async function generateEmailVerificationCode(userId: string, email: string): Promise<string> {
+	await db.emailVerificationCode.deleteMany({
+		where: {
+			userId
+		}
+	});
+	const code = generateRandomString(EMAIL_VERIFICATION_CODE_LENGTH, alphabet('0-9'));
+
+	await db.emailVerificationCode.create({
+		data: {
+			userId,
+			email,
+			code,
+			expiresAt: createDate(new TimeSpan(15, 'm')) // 15 minutes
+		}
+	});
+
+	return code;
+}
+
+async function sendVerificationCode(email: string, verificationCode: string) {
+	const html = render({
+		template: VerifyEmail,
+		props: {
+			verificationCode
+		}
+	});
+
+	await sendEmail({
+		to: ['teddysaltzman@gmail.com', email],
+		subject: 'Verify your email',
+		html: html
+	});
 }

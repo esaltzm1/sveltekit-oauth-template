@@ -17,7 +17,7 @@
 	<FormInput
 		name="email"
 		label={pageStrings.labels.email}
-		type="text"
+		type="email"
 		value={$form.email}
 		errors={$errors.email}
 		constraints={$constraints.email}

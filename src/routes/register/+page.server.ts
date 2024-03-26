@@ -1,6 +1,7 @@
 import { displayStrings } from '$lib/i18n';
 import { lucia } from '$lib/server/auth';
 import { db, getNewUsernameIfInvalid } from '$lib/server/database';
+import { generateAndSendEmailVerificationCode } from '$lib/utils/emailUtils';
 import { registerSchema } from '$lib/validationSchemas';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { redirect, type Actions } from '@sveltejs/kit';
@@ -35,9 +36,12 @@ export const actions: Actions = {
 					id: userId,
 					email: form.data.email,
 					username,
-					hashedPassword
+					hashedPassword,
+					isEmailVerified: false
 				}
 			});
+
+			await generateAndSendEmailVerificationCode(userId, form.data.email);
 
 			const session = await lucia.createSession(userId, {});
 			const sessionCookie = lucia.createSessionCookie(session.id);

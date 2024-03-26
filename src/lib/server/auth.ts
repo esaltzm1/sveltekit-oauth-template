@@ -5,6 +5,7 @@ import { Lucia } from 'lucia';
 
 interface DatabaseUserAttributes {
 	email: string;
+	isEmailVerified: boolean;
 }
 
 const adapter = new PrismaAdapter(db.session, db.user);
@@ -18,7 +19,8 @@ export const lucia = new Lucia(adapter, {
 	},
 	getUserAttributes: (attributes) => {
 		return {
-			email: attributes.email
+			email: attributes.email,
+			isEmailVerified: attributes.isEmailVerified
 		};
 	}
 });

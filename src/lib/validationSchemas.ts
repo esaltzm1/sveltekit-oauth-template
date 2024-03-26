@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { displayStrings } from './i18n';
 
 export const MIN_PASSWORD_STRING_LENGTH = 8;
+export const EMAIL_VERIFICATION_CODE_LENGTH = 6;
 
 export const loginSchema = z.object({
 	email: z.string().email(),
@@ -40,3 +41,12 @@ export const passwordResetSchema = z
 	});
 
 export type PasswordResetSchema = typeof passwordResetSchema;
+
+export const verifyEmailSchema = z.object({
+	verificationCode: z
+		.string()
+		.min(EMAIL_VERIFICATION_CODE_LENGTH)
+		.max(EMAIL_VERIFICATION_CODE_LENGTH)
+});
+
+export type VerifyEmailSchema = typeof verifyEmailSchema;

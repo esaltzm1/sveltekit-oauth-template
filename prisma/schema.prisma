@@ -14,19 +14,21 @@ datasource db {
 }
 
 model User {
-  id       String @id @unique
-  username String @unique
-  email    String @unique
+  id              String  @id @unique
+  username        String  @unique
+  email           String  @unique
+  isEmailVerified Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   role Role @default(USER)
 
-  authSession        Session[]
-  oauthAccounts      OauthAccount[]
-  hashedPassword     String?
-  passwordResetToken PasswordResetToken[]
+  authSession           Session[]
+  oauthAccounts         OauthAccount[]
+  hashedPassword        String?
+  passwordResetToken    PasswordResetToken[]
+  EmailVerificationCode EmailVerificationCode[]
 }
 
 model Session {
@@ -54,6 +56,16 @@ model PasswordResetToken {
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
 
   @@index([expiresAt])
+}
+
+model EmailVerificationCode {
+  id        Int      @id @default(autoincrement())
+  expiresAt DateTime
+  code      String
+  email     String
+
+  userId String @unique
+  user   User   @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
 enum Role {
