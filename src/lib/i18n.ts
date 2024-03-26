@@ -3,7 +3,8 @@ export const displayStrings = {
 		login: {
 			labels: {
 				email: 'Email',
-				password: 'Password'
+				password: 'Password',
+				loginWithGoogle: 'Signin with Google'
 			},
 			placeholder: {
 				email: 'you@me.com',
@@ -18,7 +19,8 @@ export const displayStrings = {
 			labels: {
 				email: 'Email',
 				password: 'Password',
-				confirmPassword: 'Confirm password'
+				confirmPassword: 'Confirm password',
+				registerWithGoogle: 'Signup with Google'
 			},
 			placeholder: {
 				email: 'you@me.com',

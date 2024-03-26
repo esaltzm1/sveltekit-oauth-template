@@ -1,6 +1,12 @@
 import { dev } from '$app/environment';
+import {
+	GOOGLE_CLIENT_ID,
+	GOOGLE_CLIENT_REDIRECT_URL,
+	GOOGLE_CLIENT_SECRET
+} from '$env/static/private';
 import { db } from '$lib/server/database';
 import { PrismaAdapter } from '@lucia-auth/adapter-prisma';
+import { Google } from 'arctic';
 import { Lucia } from 'lucia';
 
 interface DatabaseUserAttributes {
@@ -24,6 +30,12 @@ export const lucia = new Lucia(adapter, {
 		};
 	}
 });
+
+export const googleAuth = new Google(
+	GOOGLE_CLIENT_ID,
+	GOOGLE_CLIENT_SECRET,
+	GOOGLE_CLIENT_REDIRECT_URL
+);
 
 declare module 'lucia' {
 	interface Register {
