@@ -6,7 +6,7 @@
 
 {#if data.user}
 	<span>signed in with: {data.user.email}</span>
-	<form method="post" action="/?/logout" use:enhance>
+	<form method="post" action="/?/logout">
 		<button type="submit">Sign out</button>
 	</form>
 {:else}
