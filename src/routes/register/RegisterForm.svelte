@@ -13,7 +13,7 @@
 
 {#if $message}<h3>{$message}</h3>{/if}
 
-<form method="POST" use:enhance>
+<form method="POST">
 	<FormInput
 		name="email"
 		label={pageStrings.labels.email}
