@@ -3,14 +3,25 @@
 
 	export let type: HTMLInputTypeAttribute = 'text';
 	export let label: string | undefined;
+	export let placeholder: string = '';
 	export let name: string | undefined;
-	export let errors: unknown;
+	export let errors: string[] | undefined;
 	export let value: any;
 	export let constraints: any;
 </script>
 
-{#if label}
-	<label for={name}>{label}</label>
-{/if}
-<input {type} {name} aria-invalid={errors ? 'true' : undefined} {value} {...constraints} />
-{#if errors}<span class="invalid">{errors}</span>{/if}
+<div>
+	{#if label}
+		<label for={name}>{label}</label>
+	{/if}
+	<input
+		{type}
+		id={name}
+		{placeholder}
+		{name}
+		aria-invalid={errors ? 'true' : undefined}
+		{value}
+		{...constraints}
+	/>
+	{#if errors}<span class="invalid">{errors}</span>{/if}
+</div>
