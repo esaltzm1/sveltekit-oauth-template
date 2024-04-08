@@ -1,3 +1,6 @@
+# sveltekit-oauth-template
+totally unstyled barebones template for oauth in sveltekit using lucia.
+
 ## get up and running
 
 install dependencies:
@@ -26,10 +29,10 @@ Ensure you install at least version 15.
 
 Start your postgres server. If you are using the Postgres GUI, open the GUI and click the start button.
 
-Create a new database named DB_NAME:
+Create a new database named <DB_NAME>:
 
 ```
-CREATE DATABASE DB_NAME;
+CREATE DATABASE <DB_NAME>;
 ```
 
 If you're using the Postgres GUI, double-click on an existing database to open a new terminal window, then paste and run the command.
@@ -41,3 +44,22 @@ postgresql://[USERNAME]:node_password@localhost:[PORT]/DB_NAME
 ```
 
 You can find your username with the `whoami` command in your terminal. The port of the server should be displayed in the postgres GUI. if you're having trouble figuring out the `DATABASE_URL` don't worry. check in w a teammate and we'll figure it out.
+
+### Create tables in DB
+
+use prisma to make your first migration
+```bash
+npx prisma migrate dev --name init
+```
+after this, i think you are good to go db wise. here are a few commands to keep nearby while you develop.
+
+```bash
+# open prisma studio to view tables and data
+npx prisma studio
+
+# push the state of Prisma schema file to the database without using migrations
+npx prisma db push
+```
+
+
+
