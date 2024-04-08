@@ -60,6 +60,7 @@ export const GET = (async ({ url, cookies, locals }) => {
 					email: existingUserByEmail.email
 				},
 				data: {
+					isEmailVerified: true,
 					oauthAccounts: {
 						create: {
 							providerId: 'google',
@@ -82,6 +83,7 @@ export const GET = (async ({ url, cookies, locals }) => {
 					id: userId,
 					username,
 					email: googleUser.email,
+					isEmailVerified: true,
 					oauthAccounts: {
 						create: {
 							providerId: 'google',
